@@ -16,3 +16,9 @@ interface Category {
   creationAt: string;
   updatedAt: string;
 }
+
+export interface ITeaserImg {
+  image: string;
+  onClick: (e: React.MouseEvent<HTMLImageElement>) => void;
+  selectedImg: string;
+}
