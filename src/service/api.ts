@@ -32,3 +32,8 @@ export const getNewAccessToken = async () => {
 export const getAllProducts = async () => {
   return (await axios.get(`https://api.escuelajs.co/api/v1/products`)).data;
 };
+
+export const getSingleProducts = async (id: number) => {
+  return (await axios.get(`https://api.escuelajs.co/api/v1/products/${id}`))
+    .data;
+};

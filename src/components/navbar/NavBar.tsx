@@ -22,7 +22,7 @@ export default function NavBar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 flex items-center justify-between w-full h-20 p-3 border-b border-gray-500 backdrop-blur-lg">
+    <header className="fixed top-0 left-0 z-50 flex items-center justify-between w-full h-20 p-3 border-b border-gray-500 backdrop-blur-lg">
       <h1>React Shop</h1>
       <Tab />
       <div className="flex items-center justify-center gap-x-3">
