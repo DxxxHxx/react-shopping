@@ -22,3 +22,11 @@ export interface ITeaserImg {
   onClick: (e: React.MouseEvent<HTMLImageElement>) => void;
   selectedImg: string;
 }
+
+export interface ICategory {
+  id: number;
+  name: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+}

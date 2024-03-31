@@ -37,3 +37,15 @@ export const getSingleProducts = async (id: number) => {
   return (await axios.get(`https://api.escuelajs.co/api/v1/products/${id}`))
     .data;
 };
+
+export const getAllCategories = async () => {
+  return (await axios.get("https://api.escuelajs.co/api/v1/categories")).data;
+};
+
+export const filterByCategory = async (categoryId: number) => {
+  return await axios
+    .get(`https://api.escuelajs.co/api/v1/products`, {
+      params: { categoryId },
+    })
+    .then((res) => res.data);
+};
