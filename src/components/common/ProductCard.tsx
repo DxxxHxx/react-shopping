@@ -3,8 +3,20 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { noImgURL } from "@/constans";
 import { Link } from "react-router-dom";
+import React from "react";
+import { toast } from "sonner";
 
 export default function ProductCard(props: IProduct) {
+  const handleAddCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    toast("move to cart", {
+      description: new Date().toLocaleTimeString(),
+      action: {
+        label: "move",
+        onClick: () => console.log("move"),
+      },
+    });
+  };
   return (
     <Link
       to={`/products/${props.id}`}
@@ -34,7 +46,9 @@ export default function ProductCard(props: IProduct) {
               <span className="text-sm text-gray-400">Price</span>
               <h1 className="text-base">$ {props.price}</h1>
             </div>
-            <Button className="bg-purple-500">Add To Cart</Button>
+            <Button onClick={handleAddCart} className="bg-purple-500">
+              Add To Cart
+            </Button>
           </div>
         </div>
       </div>
