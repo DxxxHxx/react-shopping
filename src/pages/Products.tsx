@@ -1,17 +1,27 @@
 import CategoryFilter from "@/components/categoryFilter/CategoryFilter";
+import EmptyProducts from "@/components/common/EmptyProducts";
 import Loader from "@/components/common/Loader";
 import ProductCard from "@/components/common/ProductCard";
 import { Input } from "@/components/ui/input";
+import { useAllCategories } from "@/service/products/useAllCategories";
 import { useAllProducts } from "@/service/products/useAllProducts";
+import { useFilterByCategory } from "@/service/products/useFilterByCategory";
 import { IProduct } from "@/types/interface";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Products() {
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState<IProduct[]>([]);
   const [selectedItem, setSelectedItem] = useState(-1);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const categoryId = searchParams.get("category");
+  const { products, productsLoading } = useAllProducts();
+  const categories = useAllCategories();
+  const { filteredProducts, filteredLoading } = useFilterByCategory(
+    +categoryId!
+  );
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
@@ -35,15 +45,6 @@ export default function Products() {
     }
   };
 
-  const { products, isLoading } = useAllProducts();
-  const arr = products?.reduce((acc: string[], cur) => {
-    if (!Object.keys(acc).includes(cur.category.name)) {
-      return [...acc, cur.category.name];
-    }
-    return acc;
-  }, []);
-  const category = ["All", ...new Set(arr)];
-
   useEffect(() => {
     if (search !== "") {
       const searchData = products?.filter((product) =>
@@ -55,7 +56,18 @@ export default function Products() {
     }
   }, [search, products]);
 
-  if (isLoading) return <Loader />;
+  const showProducts = () => {
+    if (filteredProducts?.length === 0) return <EmptyProducts />;
+    return categoryId
+      ? filteredProducts?.map((product) => (
+          <ProductCard key={product.id} {...product} />
+        ))
+      : products?.map((product) => (
+          <ProductCard key={product.id} {...product} />
+        ));
+  };
+
+  if (productsLoading || filteredLoading) return <Loader />;
   return (
     <div className="w-full h-full p-5 border">
       <div className="relative mb-10">
@@ -86,12 +98,10 @@ export default function Products() {
       </div>
       <div className="flex min-[320px]:flex-col-reverse lg:flex-row lg:justify-between">
         <div className="grid gap-y-5 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
-          {products?.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
+          {showProducts()}
         </div>
 
-        <CategoryFilter categories={category} />
+        <CategoryFilter categories={categories!} />
       </div>
     </div>
   );

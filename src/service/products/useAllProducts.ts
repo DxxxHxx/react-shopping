@@ -3,10 +3,10 @@ import { getAllProducts } from "../api";
 import { IProduct } from "@/types/interface";
 
 export const useAllProducts = () => {
-  const { data: products, isLoading } = useQuery<IProduct[]>({
+  const { data: products, isLoading:productsLoading } = useQuery<IProduct[]>({
     queryKey: ["allProducts"],
     queryFn: getAllProducts,
   });
 
-  return { products, isLoading };
+  return { products, productsLoading };
 };
