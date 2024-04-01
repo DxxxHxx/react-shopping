@@ -33,7 +33,11 @@ export default function NavBar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Cart</DropdownMenuItem>
+              <Link to={"/cart"}>
+                <DropdownMenuItem className="cursor-pointer">
+                  Cart
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem onClick={handleLogout}>
                 Log Out
               </DropdownMenuItem>
@@ -54,7 +58,9 @@ export default function NavBar() {
           <SheetContent className="text-white bg-black">
             <ul className="w-full my-8 text-xl ">
               <li className="p-3 cursor-pointer">Home</li>
-              <li className="p-3 cursor-pointer"><Link to={'/products'}>Product</Link></li>
+              <li className="p-3 cursor-pointer">
+                <Link to={"/products"}>Product</Link>
+              </li>
               <li className="p-3 cursor-pointer">About</li>
             </ul>
             <div className="flex justify-center gap-x-5">
