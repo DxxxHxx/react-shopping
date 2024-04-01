@@ -2,15 +2,21 @@ import Loader from "@/components/common/Loader";
 import TeaserImg from "@/components/productDetail/TeaserImg";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 import { useSingleProducts } from "@/service/products/useSingleProducts";
+import { cartState } from "@/store";
+import { IProduct } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { toast } from "sonner";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const { product, isLoading } = useSingleProducts(+id!);
   const [selectedImg, setSelectedImg] = useState("");
   const navigate = useNavigate();
+  const setCart = useSetRecoilState(cartState);
 
   useEffect(() => {
     if (product) {
@@ -20,6 +26,21 @@ export default function ProductDetail() {
 
   const handleClickImg = (e: React.MouseEvent<HTMLImageElement>) => {
     setSelectedImg(e.currentTarget.src);
+  };
+
+  const handleAddCart = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    product: IProduct
+  ) => {
+    e.preventDefault();
+    setCart((prev) => [...prev, { ...product, count: 1 }]);
+    toast("move to cart", {
+      description: new Date().toLocaleTimeString(),
+      action: {
+        label: "move",
+        onClick: () => navigate("/cart"),
+      },
+    });
   };
 
   if (isLoading) return <Loader />;
@@ -74,10 +95,24 @@ export default function ProductDetail() {
               <span className="text-gray-400">Price</span>
               <h1 className="text-xl">$ {product?.price}</h1>
             </div>
-            <Button className="bg-purple-400">Add To Cart</Button>
+            <Button
+              onClick={(e) => handleAddCart(e, product!)}
+              className="bg-purple-400"
+            >
+              Add To Cart
+            </Button>
           </div>
         </div>
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            backgroundColor: "black",
+            border: "1px solid gray",
+            color: "whitesmoke",
+          },
+        }}
+      />
     </div>
   );
 }

@@ -2,18 +2,24 @@ import { IProduct } from "@/types/interface";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { noImgURL } from "@/constans";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import { toast } from "sonner";
+import { useSetRecoilState } from "recoil";
+import { cartState } from "@/store";
 
 export default function ProductCard(props: IProduct) {
+  const navigate = useNavigate();
+  const setCart = useSetRecoilState(cartState);
+
   const handleAddCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setCart((prev) => [...prev, { ...props, count: 1 }]);
     toast("move to cart", {
       description: new Date().toLocaleTimeString(),
       action: {
         label: "move",
-        onClick: () => console.log("move"),
+        onClick: () => navigate("/cart"),
       },
     });
   };
@@ -55,3 +61,5 @@ export default function ProductCard(props: IProduct) {
     </Link>
   );
 }
+
+//setcart 로직 찾아보기
