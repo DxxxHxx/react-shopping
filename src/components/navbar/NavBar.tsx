@@ -1,5 +1,5 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { accessTokenState, isLoggedInState } from "@/store";
+import { accessTokenState, cartSelector, isLoggedInState } from "@/store";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -15,6 +15,10 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 export default function NavBar() {
   const setAccessToken = useSetRecoilState(accessTokenState);
   const isLogin = useRecoilValue(isLoggedInState);
+  const cart = useRecoilValue(cartSelector);
+  const totalCartItem = cart.reduce((acc, cnt) => {
+    return (acc += cnt.count);
+  }, 0);
 
   const handleLogout = () => {
     setAccessToken("");
@@ -23,7 +27,9 @@ export default function NavBar() {
 
   return (
     <header className="fixed top-0 left-0 z-50 flex items-center justify-between w-full h-20 p-3 border-b border-gray-500 backdrop-blur-lg">
-      <h1>React Shop</h1>
+      <Link to={"/"}>
+        <h1>React Shop</h1>
+      </Link>
       <Tab />
       <div className="flex items-center justify-center gap-x-3">
         {isLogin ? (
@@ -34,8 +40,11 @@ export default function NavBar() {
             <DropdownMenuContent>
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <Link to={"/cart"}>
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="relative cursor-pointer">
                   Cart
+                  <div className="absolute top-0 flex items-center justify-center w-5 h-5 text-white bg-red-500 rounded-full left-9">
+                    {totalCartItem}
+                  </div>
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem onClick={handleLogout}>
@@ -73,5 +82,3 @@ export default function NavBar() {
     </header>
   );
 }
-
-// nav 반응형 => 디테일 페이지 or 카테고리 필터 or 검색
