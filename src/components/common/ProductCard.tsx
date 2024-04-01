@@ -15,10 +15,10 @@ export default function ProductCard(props: IProduct) {
   const handleAddCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCart((prev) => [...prev, { ...props, count: 1 }]);
-    toast("move to cart", {
+    toast(`${props.title}을(를) 장바구니에 담았습니다.`, {
       description: new Date().toLocaleTimeString(),
       action: {
-        label: "move",
+        label: "장바구니로",
         onClick: () => navigate("/cart"),
       },
     });

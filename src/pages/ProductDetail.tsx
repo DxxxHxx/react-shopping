@@ -34,10 +34,10 @@ export default function ProductDetail() {
   ) => {
     e.preventDefault();
     setCart((prev) => [...prev, { ...product, count: 1 }]);
-    toast("move to cart", {
+    toast(`${product.title}을(를) 장바구니에 담았습니다.`, {
       description: new Date().toLocaleTimeString(),
       action: {
-        label: "move",
+        label: "장바구니로",
         onClick: () => navigate("/cart"),
       },
     });
