@@ -30,3 +30,7 @@ export interface ICategory {
   creationAt: string;
   updatedAt: string;
 }
+
+export interface ICart extends IProduct {
+  count: number;
+}
