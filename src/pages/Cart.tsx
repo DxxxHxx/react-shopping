@@ -1,5 +1,5 @@
 import { CartItem } from "@/components/cart/CartItem";
-import { Button } from "@/components/ui/button";
+import BuyBtn from "@/components/common/BuyBtn";
 import { cartSelector } from "@/store";
 import { useRecoilState } from "recoil";
 
@@ -20,7 +20,7 @@ export default function Cart() {
 
       <div className="flex items-center justify-center p-3 gap-x-5 md:flex-col md:gap-y-5">
         <h1 className="text-xl">총 가격 : $ {totalPrice}</h1>
-        <Button variant={"secondary"}>구매</Button>
+        <BuyBtn cartList={cartList} totalPrice={totalPrice} />
       </div>
     </div>
   );
