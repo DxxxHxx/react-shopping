@@ -1,5 +1,8 @@
 import { atom, selector } from "recoil";
 import { ICart } from "./types/interface";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 export const accessTokenState = atom({
   key: "accessToken",
@@ -15,26 +18,10 @@ export const isLoggedInState = selector({
   },
 });
 
-/////////////////
-// export const minutesState = atom({
-//   key: "minutes",
-//   default: 0,
-// });
-
-// export const hoursSelector = selector({
-//   key: "hours",
-//   get: ({ get }) => {
-//     return get(minutesState) / 60;
-//   },
-//   set: ({ set }, newValue) => {
-//     const minutes = +newValue * 60;
-//     set(minutesState, minutes);
-//   },
-// });
-
 export const cartState = atom<ICart[]>({
   key: "cart",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const cartSelector = selector({
