@@ -9,6 +9,7 @@ import { useFilterByCategory } from "@/service/products/useFilterByCategory";
 import { IProduct } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Products() {
   const [search, setSearch] = useState("");
@@ -103,6 +104,15 @@ export default function Products() {
 
         <CategoryFilter categories={categories!} />
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            backgroundColor: "black",
+            border: "1px solid gray",
+            color: "whitesmoke",
+          },
+        }}
+      />
     </div>
   );
 }

@@ -2,9 +2,27 @@ import { IProduct } from "@/types/interface";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { noImgURL } from "@/constans";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { toast } from "sonner";
+import { useSetRecoilState } from "recoil";
+import { cartState } from "@/store";
 
 export default function ProductCard(props: IProduct) {
+  const navigate = useNavigate();
+  const setCart = useSetRecoilState(cartState);
+
+  const handleAddCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setCart((prev) => [...prev, { ...props, count: 1 }]);
+    toast(`${props.title}을(를) 장바구니에 담았습니다.`, {
+      description: new Date().toLocaleTimeString(),
+      action: {
+        label: "장바구니로",
+        onClick: () => navigate("/cart"),
+      },
+    });
+  };
   return (
     <Link
       to={`/products/${props.id}`}
@@ -34,10 +52,14 @@ export default function ProductCard(props: IProduct) {
               <span className="text-sm text-gray-400">Price</span>
               <h1 className="text-base">$ {props.price}</h1>
             </div>
-            <Button className="bg-purple-500">Add To Cart</Button>
+            <Button onClick={handleAddCart} className="bg-purple-500">
+              Add To Cart
+            </Button>
           </div>
         </div>
       </div>
     </Link>
   );
 }
+
+//setcart 로직 찾아보기
