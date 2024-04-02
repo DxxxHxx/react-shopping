@@ -1,3 +1,5 @@
+import { SetterOrUpdater } from "recoil";
+
 export interface IProduct {
   id: number;
   title: string;
@@ -33,4 +35,8 @@ export interface ICategory {
 
 export interface ICart extends IProduct {
   count: number;
+}
+
+export interface ICartItem extends ICart {
+  setCartList: SetterOrUpdater<ICart[]>;
 }
