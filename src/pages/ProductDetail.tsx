@@ -10,11 +10,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const { product, isLoading } = useSingleProducts(+id!);
   const [selectedImg, setSelectedImg] = useState("");
+  const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
   const setCart = useSetRecoilState(cartState);
 
@@ -46,11 +48,11 @@ export default function ProductDetail() {
   if (isLoading) return <Loader />;
   return (
     <div className="items-center justify-center md:absolute md:top-0 md:left-0 md:flex md:h-screen md:p-5">
-      <div className="relative flex flex-col w-full md:h-[500px] p-5 border md:flex-row bg-stone-900 rounded-xl">
+      <motion.div layoutId={product?.id + ""} className="relative flex flex-col w-full md:h-[500px] p-5 border md:flex-row bg-stone-900 rounded-xl">
         <Button
           onClick={() => navigate(-1)}
           variant={"secondary"}
-          className="absolute right-3 top-3"
+          className="absolute z-10 right-3 top-3"
         >
           Back
         </Button>
@@ -58,10 +60,13 @@ export default function ProductDetail() {
           id="imgContainer"
           className="flex flex-col items-center justify-center w-full mb-3 md:flex-row-reverse md:justify-center md:gap-x-5 gap-y-3 "
         >
-          <img
-            className="w-full border md:w-1/2 rounded-xl"
+          <motion.img
+            layoutId={product?.id + ""}
+            className="relative z-0 w-full border cursor-pointer md:w-1/2 rounded-xl"
             src={selectedImg}
             alt="main image"
+            onMouseOver={() => setIsHover(true)}
+            onMouseOut={() => setIsHover(false)}
           />
           <div className="flex justify-center md:flex-col md:gap-y-3 gap-x-3">
             {product?.images.map((image) => (
@@ -103,7 +108,7 @@ export default function ProductDetail() {
             </Button>
           </div>
         </div>
-      </div>
+      </motion.div>
       <Toaster
         toastOptions={{
           style: {
