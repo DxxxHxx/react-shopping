@@ -30,7 +30,7 @@ export default function ProductCard(props: IProduct) {
     >
       <div>
         <img
-          src={props.images[0] ?? noImgURL}
+          src={props.images[0].includes("[") ? noImgURL : props.images[0]}
           className="w-full mb-3 rounded-2xl"
           alt="product image"
         />

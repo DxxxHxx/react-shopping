@@ -9,7 +9,7 @@ export default function Tab() {
         <Link to={"/products"}>Products</Link>
       </li>
       <li className="px-5 py-2 text-3xl cursor-pointer shrink-0 hover:text-gray-400">
-        About
+        <Link to={"/about"}>About</Link>
       </li>
     </ul>
   );
