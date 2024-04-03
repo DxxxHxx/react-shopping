@@ -11,7 +11,7 @@ export default function Cart() {
   }, 0);
 
   return (
-    <div className="flex flex-col border md:p-3 gap-y-10 md:flex-row md:items-start md:justify-between">
+    <div className="flex flex-col md:p-3 gap-y-10 md:flex-row md:items-start md:justify-between">
       <ul className="flex flex-col gap-y-3">
         {cartList.map((item) => (
           <CartItem key={item.id} {...item} setCartList={setCartList} />

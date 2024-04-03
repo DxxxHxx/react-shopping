@@ -45,10 +45,10 @@ export default function BuyBtn({
             <DrawerDescription>상품을 확인해주세요.</DrawerDescription>
           </DrawerHeader>
           <div className="flex flex-col p-4 pb-0 gap-y-5">
-            <ul className="flex flex-col items-center justify-center space-x-2">
+            <ul className="flex flex-col items-start justify-center space-x-2">
               {cartList.map((item) => (
-                <li key={item.id} className="p-3">
-                  <span className="text-base md:text-lg">
+                <li key={item.id} className="p-3 mb-2 ">
+                  <span className="text-xs">
                     {item.title} ({item.count}) : $ {item.price * item.count}
                   </span>
                 </li>
