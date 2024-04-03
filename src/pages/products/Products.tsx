@@ -70,7 +70,7 @@ export default function Products() {
 
   if (productsLoading || filteredLoading) return <Loader />;
   return (
-    <div className="w-full h-full p-5 border">
+    <div className="w-full h-full p-5">
       <div className="relative mb-10">
         <Input
           className={`text-black md:w-full lg:w-1/3 placeholder:text-base ${
