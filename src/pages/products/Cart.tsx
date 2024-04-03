@@ -1,5 +1,6 @@
 import { CartItem } from "@/components/cart/CartItem";
 import BuyBtn from "@/components/common/BuyBtn";
+import EmptyProducts from "@/components/common/EmptyProducts";
 import { cartSelector } from "@/store";
 import { useRecoilState } from "recoil";
 
@@ -11,12 +12,25 @@ export default function Cart() {
   }, 0);
 
   return (
+<<<<<<< HEAD:src/pages/Cart.tsx
     <div className="flex flex-col md:p-3 gap-y-10 md:flex-row md:items-start md:justify-between">
       <ul className="flex flex-col gap-y-3">
         {cartList.map((item) => (
           <CartItem key={item.id} {...item} setCartList={setCartList} />
         ))}
       </ul>
+=======
+    <div className="flex flex-col border md:p-3 gap-y-10 md:flex-row md:items-start md:justify-between">
+      {cartList.length > 0 ? (
+        <ul className="flex flex-col gap-y-3">
+          {cartList.map((item) => (
+            <CartItem key={item.id} {...item} setCartList={setCartList} />
+          ))}
+        </ul>
+      ) : (
+        <EmptyProducts />
+      )}
+>>>>>>> 9dea76da16621b30136d34476c11a010778b7e8f:src/pages/products/Cart.tsx
 
       <div className="flex items-center justify-center p-3 gap-x-5 md:flex-col md:gap-y-5">
         <h1 className="text-xl">총 가격 : $ {totalPrice}</h1>
