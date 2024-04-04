@@ -49,3 +49,16 @@ export const filterByCategory = async (categoryId: number) => {
     })
     .then((res) => res.data);
 };
+
+export const getPaginatedProducts = async ({
+  pageParam = 0,
+}: {
+  pageParam: number;
+}) => {
+  const res = (
+    await axios.get(
+      `https://api.escuelajs.co/api/v1/products?offset=${pageParam}&limit=12`
+    )
+  ).data;
+  return { products: res, prevOffset: pageParam };
+};

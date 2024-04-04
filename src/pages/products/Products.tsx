@@ -10,6 +10,7 @@ import { IProduct } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
+import { usePaginatedProducts } from "@/service/products/usePaginatedProducts";
 
 export default function Products() {
   const [search, setSearch] = useState("");
@@ -23,6 +24,34 @@ export default function Products() {
   const { filteredProducts, filteredLoading } = useFilterByCategory(
     +categoryId!
   );
+
+  const { data, fetchNextPage, hasNextPage } = usePaginatedProducts({
+    pageParam: 0,
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // window.innerHeight + scrollTop === scrollHeight @@@@@@
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        // next page
+        fetchNextPage();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [fetchNextPage]);
+
+  const paginatedProducts: IProduct[] = data?.pages.reduce((acc: any, page) => {
+    return [...acc, ...page.products];
+  }, []);
+
+  useEffect(() => {
+    console.log(hasNextPage);
+  }, [hasNextPage]);
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
@@ -63,7 +92,7 @@ export default function Products() {
       ? filteredProducts?.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))
-      : products?.map((product) => (
+      : paginatedProducts?.map((product) => (
           <ProductCard key={product.id} {...product} />
         ));
   };
@@ -104,6 +133,20 @@ export default function Products() {
 
         <CategoryFilter categories={categories!} />
       </div>
+      {hasNextPage && (
+        <div className="flex items-center justify-center">
+          <div className=" lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
       <Toaster
         toastOptions={{
           style: {
