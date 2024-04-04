@@ -5,6 +5,7 @@ import Products from "@/pages/products/Products";
 import ProductDetail from "@/pages/products/ProductDetail";
 import Cart from "@/pages/products/Cart";
 import Home from "@/pages/Home";
+import ProtectedRoutes from "./common/ProtectedRoutes";
 
 export default function Router() {
   return (
@@ -14,7 +15,9 @@ export default function Router() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/cart" element={<Cart />} />
+        </Route>
       </Route>
     </Routes>
   );
