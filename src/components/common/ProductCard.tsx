@@ -61,5 +61,3 @@ export default function ProductCard(props: IProduct) {
     </Link>
   );
 }
-
-//setcart 로직 찾아보기

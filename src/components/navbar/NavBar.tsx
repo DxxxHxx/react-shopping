@@ -34,11 +34,13 @@ export default function NavBar() {
       <div className="flex items-center justify-center gap-x-3">
         {isLogin ? (
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="relative">
               <User />
+              <div className="absolute flex items-center justify-center w-5 h-5 text-white bg-red-500 rounded-full -right-2 -top-4">
+                {totalCartItem}
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
               <Link to={"/cart"}>
                 <DropdownMenuItem className="relative cursor-pointer">
                   Cart
@@ -66,11 +68,12 @@ export default function NavBar() {
           </SheetTrigger>
           <SheetContent className="text-white bg-black">
             <ul className="w-full my-8 text-xl ">
-              <li className="p-3 cursor-pointer">Home</li>
+              <li className="p-3 cursor-pointer">
+                <Link to={"/"}>Home</Link>
+              </li>
               <li className="p-3 cursor-pointer">
                 <Link to={"/products"}>Product</Link>
               </li>
-              <li className="p-3 cursor-pointer">About</li>
             </ul>
             <div className="flex justify-center gap-x-5">
               <Button variant={"secondary"}>Log In</Button>
