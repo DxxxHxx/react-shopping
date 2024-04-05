@@ -33,6 +33,10 @@ export default function ProductDetail() {
     product: IProduct
   ) => {
     e.preventDefault();
+    if (!localStorage.getItem("accessToken")) {
+      alert("로그인 후 이용 가능합니다.");
+      return;
+    }
     setCart((prev) => [...prev, { ...product, count: 1 }]);
     toast(`${product.title}을(를) 장바구니에 담았습니다.`, {
       description: new Date().toLocaleTimeString(),

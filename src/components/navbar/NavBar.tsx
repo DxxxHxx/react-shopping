@@ -8,21 +8,25 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 import { User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Tab from "./Tab";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const setAccessToken = useSetRecoilState(accessTokenState);
   const isLogin = useRecoilValue(isLoggedInState);
+  // console.log(isLogin);
   const cart = useRecoilValue(cartSelector);
   const totalCartItem = cart.reduce((acc, cnt) => {
     return (acc += cnt.count);
   }, 0);
 
   const handleLogout = () => {
-    setAccessToken("");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    setAccessToken("");
+    navigate("/");
   };
 
   return (
