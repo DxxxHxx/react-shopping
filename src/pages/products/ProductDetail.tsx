@@ -10,13 +10,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const { product, isLoading } = useSingleProducts(+id!);
   const [selectedImg, setSelectedImg] = useState("");
-  const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
   const setCart = useSetRecoilState(cartState);
 
@@ -35,6 +33,10 @@ export default function ProductDetail() {
     product: IProduct
   ) => {
     e.preventDefault();
+    if (!localStorage.getItem("accessToken")) {
+      alert("로그인 후 이용 가능합니다.");
+      return;
+    }
     setCart((prev) => [...prev, { ...product, count: 1 }]);
     toast(`${product.title}을(를) 장바구니에 담았습니다.`, {
       description: new Date().toLocaleTimeString(),
@@ -48,7 +50,7 @@ export default function ProductDetail() {
   if (isLoading) return <Loader />;
   return (
     <div className="items-center justify-center md:absolute md:top-0 md:left-0 md:flex md:h-screen md:p-5">
-      <motion.div layoutId={product?.id + ""} className="relative flex flex-col w-full md:h-[500px] p-5 border md:flex-row bg-stone-900 rounded-xl">
+      <div className="relative flex flex-col w-full md:h-[500px] p-5 border md:flex-row bg-stone-900 rounded-xl">
         <Button
           onClick={() => navigate(-1)}
           variant={"secondary"}
@@ -60,13 +62,10 @@ export default function ProductDetail() {
           id="imgContainer"
           className="flex flex-col items-center justify-center w-full mb-3 md:flex-row-reverse md:justify-center md:gap-x-5 gap-y-3 "
         >
-          <motion.img
-            layoutId={product?.id + ""}
+          <img
             className="relative z-0 w-full border cursor-pointer md:w-1/2 rounded-xl"
             src={selectedImg}
             alt="main image"
-            onMouseOver={() => setIsHover(true)}
-            onMouseOut={() => setIsHover(false)}
           />
           <div className="flex justify-center md:flex-col md:gap-y-3 gap-x-3">
             {product?.images.map((image) => (
@@ -108,7 +107,7 @@ export default function ProductDetail() {
             </Button>
           </div>
         </div>
-      </motion.div>
+      </div>
       <Toaster
         toastOptions={{
           style: {

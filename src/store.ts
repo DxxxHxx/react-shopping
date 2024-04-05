@@ -13,7 +13,7 @@ export const isLoggedInState = selector({
   key: "isLoggedIn",
   get: ({ get }) => {
     const token = get(accessTokenState);
-    if (token === "") return false;
+    if (!token) return false;
     return true;
   },
 });
