@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/navbar/NavBar";
 import Router from "./components/router";
+import ScrollTop from "./components/common/ScrollTop";
 
 export default function App() {
   // const accessToken = useRecoilValue(accessTokenState);
@@ -14,6 +15,7 @@ export default function App() {
     <BrowserRouter>
       <NavBar />
       <Router />
+      <ScrollTop/>
     </BrowserRouter>
   );
 }
